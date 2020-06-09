@@ -13,6 +13,7 @@ def mysql_select():
     dbname   = 'my_database'    # データベース名
     
     goods = []
+    
     try:
         cnx = mysql.connector.connect(host=host, user=username, password=passwd, database=dbname)
         cursor = cnx.cursor()
