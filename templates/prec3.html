@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <title>じゃんけん勝負</title>
+</head>
+<body>
+    <p>
+    <!-- 自分のじゃんけんの結果 -->
+    {% if jyanken %}  
+    自分：{{ jyanken }}
+    {% endif %}
+    <br>
+    {% if opp %}
+    相手：{{ opp }}
+    {% endif %}
+    <br>
+    {% if result %}
+    結果：{{result}}
+    {% endif %}
+    
+    </p>
+    <form method="post">
+    <input type="radio" name="jyanken" value=" グー" {{'checked' if gender == 'グー'}}>グー
+    <input type="radio" name="jyanken" value="チョキ" {{'checked' if gender == 'チョキ'}}>チョキ
+    <input type="radio" name="jyanken" value="パー" {{'checked' if gender == 'パー'}}>パー
+    <br><input type="submit" name="勝負!!">
+    
+    </form>
+</body>
+</html>

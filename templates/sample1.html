@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+   <meta charset="UTF-8">
+   <title>課題</title>
+</head>
+<body>
+   <h1>課題</h1>
+    {% if my_name %}
+        <p>ここに入力したお名前を表示：「{{my_name}}」</p>
+    {% endif %}
+    {% if gender %}
+        <p>ここに選択した性別を表示：「{{gender}}」</p>
+    {% endif %}
+    {% if mail %}
+        <p>ここにメールを受け取るか表示：「{{mail}}」</p>
+    {% endif %}
+    
+    <form method="post">
+        お名前：<input id="my_name" type="text" name="my_name" value="">
+        <br>性別：<input type="radio" name="gender" value="men"　{{'checked' if gender == 'men'}}>男
+        <input type="radio" name="gender" value="women"　{{'checked' if gender == 'woman'}}>女
+        <br><input type="checkbox" name="mail" value="OK">お知らせメールを受け取る
+        <br><input type="submit" value="送信">
+    </form>
+</body>
+</html>

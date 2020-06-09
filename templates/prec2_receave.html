@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<htmml lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <title>課題２</title>
+</head>
+<body>
+    <form method="POST" action="receave">
+    {% if my_name %}
+        <p>ようこそ{{ my_name }}さん</p>
+    {% else %}
+        <p>名前を入力してください。</p>
+    {% endif %}
+    </form>
+</body>
+</htmml>
