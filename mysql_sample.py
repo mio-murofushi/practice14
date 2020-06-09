@@ -1,13 +1,16 @@
 #coding:UTF-8
 import mysql.connector
 from mysql.connector import errorcode
+from flask import Flask, render_template
+
+app = Flask(__name__)
 
 @app.route("/mysql_select")
 def mysql_select():
     host = 'localhost' # データベースのホスト名又はIPアドレス
     username = 'root'  # MySQLのユーザ名
     passwd   = 'Mimu1997'    # MySQLのパスワード
-    dbname   = 'dbname'    # データベース名
+    dbname   = 'my_database'    # データベース名
     
     goods = []
     try:
