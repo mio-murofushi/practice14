@@ -19,6 +19,10 @@ def jyanken():
     opp = random.choice(list)
 
     # じゃんけんの勝敗
+    if jyanken == opp:
+        result = "あいこ"
+        return render_template("prec3.html",jyanken=jyanken, opp=opp, result=result)
+        
     if jyanken == "グー":
         if  opp == "チョキ":
             result = "勝ち！"
