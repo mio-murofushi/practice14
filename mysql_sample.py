@@ -16,6 +16,7 @@ def mysql_select():
     
     try:
         cnx = mysql.connector.connect(host=host, user=username, password=passwd, database=dbname)
+        #cnx = mysql.connector.connect(host=host, user=username, password=passwd, database=dbname,auth_plugin='mysql_native_password')
         cursor = cnx.cursor()
         query = 'SELECT good_id, goods_name, price FROM goods_table'
         cursor.execute(query)
