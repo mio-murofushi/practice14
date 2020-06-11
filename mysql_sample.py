@@ -118,10 +118,11 @@ def challenge_mysql_select():
         if jobs == "":
             query = "SELECT * FROM emp_table"
         else:
-            query = "SELECT * FROM emp_table WHERE job = jobs"
+            query = f"SELECT * FROM emp_table WHERE job = '{jobs}'"
         
         cursor.execute(query)
         emp = []
+    
         for (id, name, job, age) in cursor:
             item = {"emp_id":id, "emp_name":name, "job":job, "age":age}
             emp.append(item)
