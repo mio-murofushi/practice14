@@ -146,3 +146,64 @@ def challenge_mysql_select():
         cnx.close()
     
     return render_template("emp.html", **params)
+
+#  第１２章課題２
+@app.route("/goods_insert")
+def challenge_mysql_insert():
+    # 商品名と価格が入力された場合、取得する
+    add_goods = ""
+    add_price = ""
+    mes = ""
+    if "add_goods" in request.args.keys():
+        add_goods = request.args.get("add_goods")
+    
+        if "add_price" in request.args.keys():
+            add_price = request.args.get("add_price")
+
+    try:
+        cnx = mysql.connector.connect(host=host, user=username, password=passwd, database=dbname)
+        cursor = cnx.cursor()
+        
+        # 新規クエリが存在した場合
+        if add_goods == "" and add_price =="":
+            print("追加情報はありません。")
+            mes = "追加情報はありません。"
+
+        elif add_price.isdecimal() == False or add_goods == "":
+            print("商品名、または価格をご確認ください。")
+            mes = "商品名、または価格をご確認ください。"
+
+        else:
+            query =  f"INSERT INTO goods_table(goods_name, price) VALUES('{add_goods}', '{add_price}')"
+            # クエリの実行
+            cursor.execute(query)
+            cnx.commit()
+            print("追加しました。")
+            mes = "追加しました。"
+            add_goods = ""
+            add_price = ""
+        
+        query = 'SELECT goods_name, price FROM goods_table'
+        cursor.execute(query)
+        
+        goods = []
+        for (name, price) in cursor:
+            item = {"name": name, "price":price}
+            goods.append(item)
+
+        params = {
+        "goods" : goods,
+        "mes" : mes
+        }
+
+    except mysql.connector.Error as err:
+        if err.errno == errorcode.ER_ACCESS_DENIED_ERROR:
+            print("ユーザ名かパスワードに問題があります。")
+        elif err.errno == errorcode.ER_BAD_DB_ERROR:
+            print("データベースが存在しません。")
+        else:
+            print(err)
+    else:
+        cnx.close()
+
+    return render_template("goods.html", **params)
