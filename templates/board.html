@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="ja">
+    <head>
+        <meta charset ="UTF=8">
+        <title>ひとこと掲示板</title>
+    </head>
+    <body>
+        {% if mes %}
+            <h2>{{ mes }}</h2>
+        {% endif %}
+        <center><h1>ひとこと掲示板</h1></center>
+        <marquee>コメントを入力してね！</marquee>
+        <form method="" action="">
+        名前：<input name="add_username" style="width:100px;">
+        <br>コメント：<input name="add_comment" style="width:500px;">
+        <br>
+        <input type="submit" value="送信">
+        </form>
+        <hr size='1' width="500">
+        <br>
+        <table>     
+            {% for item in user_data %}
+                ・{{ item.username }}　：　{{ item.comment }}  -{{ item.date }}
+                <br>
+            {% endfor %}
+        </table>
+        <br>
+        <hr size='1' width="500">
+    </body>
+</html>
