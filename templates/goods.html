@@ -3,14 +3,37 @@
 <head>
    <meta charset="UTF-8">
    <title>サンプル</title>
+   <style type="text/css">
+       table, td, th {
+           border: solid black 1px;
+       }
+       table {
+           width: 200px;
+       }
+   </style>
 </head>
 <body>
+   {% if mes %}
+      <p>{{ mes }}</p>
+   {% endif %}
+   
+   <form method="" action="">
+      追加したい商品の名前と価格を入力してください。<br>
+      商品名：<input name="add_goods">
+      価格：<input name="add_price">
+      <input type="submit", value="追加">
+   </form>
+
    <h1>商品一覧</h1>
    <table>
+       <tr>
+           <th>商品名</th>
+           <th>値段</th>
+       </tr>
+
        {% for item in goods %}
        <tr>
-            <td> {{ item.good_id }} </td>
-            <td> {{ item.goods_name }} </td>
+            <td> {{ item.name }} </td>
             <td>{{ item.price }}</td>
        </tr>
        {% endfor %}
