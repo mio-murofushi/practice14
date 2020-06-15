@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <title>課題</title>    
+</head>
+<body>
+    <form method="post" action="">
+        <label for="mail_adress">メールアドレス：</label>
+        <input id="mail_adress" type="text" name="mail_adress" value="{{mail_adress}}" placeholder="*****@*****"><br>
+        <label for="password">パスワード：</label>
+        <input id="password" type="text" name="password" value="{{password}}" placeholder="半角英数字記号で6文字以上18文字以下">
+       <input type="submit" value="登録">
+    </form>
+    {% if mail_message %}
+        {{ mail_message }}
+    {% endif %}
+    {% if pass_message %}
+        {{ pass_message }}
+    {% endif %}
+    {% if message %}
+        {{ message }}
+    {% endif %}
+    
+</body>
+</html>
