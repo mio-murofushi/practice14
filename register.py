@@ -49,7 +49,7 @@ def register():
             else: # 形式が違う
                 pass_message = "パスワードの形式が違います。"
             
-            if re.match(r'^[0-9a-zA-Z]@[a-z]$', mail_adress) and re.match(r'^[a-zA-Z0-9]{6,18}$',password):
+            if mail_message == "" and pass_message == "":
                 message = "登録完了"
 
     return render_template("register.html", mail_adress=mail_adress, password=password, mail_message=mail_message, pass_message=pass_message, message=message)
