@@ -1,0 +1,144 @@
+# order_table
+create table order_table(
+    order_id INT AUTO_INCREMENT,
+    customer_id INT,
+    order_date datetime DEFAULT CURRENT_TIMESTAMP,
+    payment VARCHAR(20),
+    primary key (order_id)
+);
+DELETE FROM order_table;
+INSERT INTO order_table (
+    order_id, customer_id, 
+    order_date, 
+    payment
+    ) VALUES
+    (1, 1, '2017-10-01 10:22:30', 'クレジット'),
+    (2, 2, '2017-10-01 18:51:06', 'クレジット'),(3, 3, '2017-10-02 09:14:35', '代金引換'),(4, 1, '2017-10-03 11:00:57', 'クレジット');
+
+# order_detail_table
+create table order_detail_table(
+    order_id INT,
+    goods_id INT,
+    quantity INT
+);
+DELETE FROM order_detail_table;
+INSERT INTO order_detail_table (order_id, goods_id, quantity) VALUES
+(1, 1, 3),(1, 5, 3),(2, 2, 1),(3, 1, 10),(3, 4, 10),(4, 1, 5);
+
+# customer_table
+create table customer_table(
+    customer_id INT AUTO_INCREMENT,
+    customer_name VARCHAR(20),
+    address VARCHAR(100),
+    phone_number VARCHAR(11),
+    primary key (customer_id)
+);
+DELETE FROM customer_table;
+INSERT INTO customer_table (customer_id, customer_name, address, phone_number) VALUES
+(1, '佐藤一郎', '東京都港区六本木6-10-1', '0345670000'),(2, '鈴木誠', '神奈川県横浜市中区立野2-1', '09099991111'),(3, '山田葵', '東京都杉並区今川5-3', '0378902222');
+ 
+
+SELECT goods_table.good_id, goods_table.goods_name, order_detail_table.order_id, order_detail_table.goods_id, order_detail_table.quantity
+FROM goods_table 
+JOIN order_detail_table 
+ON goods_table.good_id = order_detail_table.goods_id;
+
+SELECT goods_table.good_id, goods_table.goods_name, goods_table.price, order_detail_table.quantity 
+FROM goods_table 
+LEFT JOIN order_detail_table 
+ON order_detail_table.goods_id = goods_table.good_id;
+
+SELECT * FROM order_table 
+JOIN order_detail_table 
+ON order_table.order_id = order_detail_table.order_id 
+JOIN goods_table 
+ON order_detail_table.goods_id = goods_table.good_id;
+
+
+# 15章
+# 課題１
+# 発注に関して、customer_idとgoods_idを除く全情報を取得
+SELECT order_table.order_id, order_table.order_date, customer_table.customer_name, customer_table.address, customer_table.phone_number, order_table.payment, goods_table.goods_name, goods_table.price, order_detail_table.quantity
+FROM order_table
+JOIN customer_table
+ON order_table.customer_id = customer_table.customer_id
+JOIN order_detail_table
+ON order_table.order_id=order_detail_table.order_id
+JOIN goods_table
+ON order_detail_table.goods_id=goods_table.good_id;
+
+# 佐藤一郎さんの発注した商品情報を取得
+SELECT order_table.order_id, order_table.order_date, customer_table.customer_name, goods_table.goods_name, goods_table.price, order_detail_table.quantity
+FROM order_table
+JOIN customer_table
+ON order_table.customer_id = customer_table.customer_id
+JOIN order_detail_table
+ON order_table.order_id=order_detail_table.order_id
+JOIN goods_table
+ON order_detail_table.goods_id=goods_table.good_id
+WHERE customer_name="佐藤一郎";
+
+# コーラの売り上げ情報を取得
+SELECT goods_table.goods_name, goods_table.price, order_detail_table.quantity, order_table.order_date
+FROM goods_table
+JOIN order_detail_table
+ON goods_table.good_id=order_detail_table.goods_id
+JOIN order_table
+ON order_detail_table.order_id=order_table.order_id
+WHERE goods_name="コーラ";
+
+# 一回あたりの購入数が多い順に全商品の売り上げ情報を取得
+SELECT goods_table.goods_name, goods_table.price, order_detail_table.quantity, order_table.order_date
+FROM goods_table
+JOIN order_detail_table
+ON goods_table.good_id = order_detail_table.goods_id
+JOIN order_table 
+ON order_detail_table.order_id=order_table.order_id
+ORDER BY quantity;
+
+SELECT
+  goods_table.good_id,
+  goods_table.goods_name,
+  goods_table.price,
+  order_detail_table.quantity,
+  goods_table.price * order_detail_table.quantity
+FROM
+  goods_table LEFT JOIN order_detail_table
+    ON order_detail_table.goods_id = goods_table.good_id;
+
+SELECT
+  goods_table.good_id,
+  goods_table.goods_name,
+  goods_table.price,
+  order_detail_table.quantity,
+  goods_table.price * order_detail_table.quantity AS total
+FROM
+  goods_table LEFT JOIN order_detail_table
+    ON order_detail_table.goods_id = goods_table.good_id;
+
+SELECT
+  gt.good_id,
+  gt.goods_name,
+  gt.price,
+  odt.quantity,
+  gt.price * odt.quantity AS total
+FROM
+  goods_table AS gt LEFT JOIN order_detail_table AS odt
+    ON gt.good_id = odt.goods_id;
+
+# 第16章
+# 顧客毎の発注回数を取得し、名前と合わせて表示
+SELECT 
+customer_table.customer_name,
+COUNT(order_table.order_id) AS '発注回数'
+FROM order_table
+JOIN customer_table
+ON order_table.customer_id=customer_table.customer_id
+GROUP BY customer_name;
+
+# 値段が百円の商品毎の売り上げ数量を取得し、商品名と合わせて表示
+SELECT goods_table.goods_name, goods_table.price, order_detail_table.quantity
+FROM goods_table
+JOIN order_detail_table
+ON goods_table.good_id = goods_table.goods_id
+WHERE price=100
